@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, FileText, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, FileText, ChevronRight, CheckCircle2, Mic } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../services/authService';
+import VoiceAssistant from '../components/VoiceAssistant';
 
 const PreScreen = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [currentSection, setCurrentSection] = useState('dental'); // 'dental' or 'medical'
+  const [mode, setMode] = useState('voice'); // 'form' or 'voice'
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   
@@ -68,6 +70,30 @@ const PreScreen = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+  };
+
+  const handleVoiceSessionComplete = async (sessionId, conversationHistory) => {
+    try {
+      // Save voice session data as questionnaire
+      if (user) {
+        const questionnaireData = {
+          type: 'dental-voice',
+          clinic: 'Dental Clinic',
+          appointmentDate: new Date().toISOString().split('T')[0],
+          appointmentTime: 'TBD',
+          voiceSessionId: sessionId,
+          conversationHistory: conversationHistory,
+          submittedAt: new Date().toISOString()
+        };
+        
+        authService.saveQuestionnaire(user.id, questionnaireData);
+      }
+      
+      // Mark as submitted
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error completing voice session:', error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -176,8 +202,49 @@ const PreScreen = () => {
             Please complete the following questions to help us prepare for your visit.
           </p>
 
-          {/* Section Tabs */}
-          <div className="flex gap-2 mb-6 border-b border-gray-200">
+          {/* Mode Selection */}
+          <div className="flex gap-4 mb-6">
+            <button
+              type="button"
+              onClick={() => setMode('voice')}
+              className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all ${
+                mode === 'voice'
+                  ? 'bg-[#2A1B1B] text-white shadow-md'
+                  : 'bg-gray-100 text-[#2A1B1B] hover:bg-gray-200'
+              }`}
+            >
+              <Mic className="inline mr-2" size={18} />
+              Voice Assistant
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode('form')}
+              className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all ${
+                mode === 'form'
+                  ? 'bg-[#2A1B1B] text-white shadow-md'
+                  : 'bg-gray-100 text-[#2A1B1B] hover:bg-gray-200'
+              }`}
+            >
+              <FileText className="inline mr-2" size={18} />
+              Written Form
+            </button>
+          </div>
+
+          {/* Voice Mode */}
+          {mode === 'voice' ? (
+            <VoiceAssistant 
+              onSessionComplete={handleVoiceSessionComplete}
+              domainQuestions={[
+                "What is the main reason for your visit today?",
+                "How long have you had these symptoms?",
+                "Are you currently taking any medications?",
+                "Do you have any allergies to medication?"
+              ]}
+            />
+          ) : (
+            <>
+              {/* Section Tabs */}
+              <div className="flex gap-2 mb-6 border-b border-gray-200">
             <button
               type="button"
               onClick={() => setCurrentSection('dental')}
@@ -786,6 +853,8 @@ const PreScreen = () => {
               )}
             </div>
           </form>
+            </>
+          )}
         </div>
       </main>
     </div>

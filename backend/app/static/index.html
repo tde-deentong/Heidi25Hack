@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Pre-screening Voice Assistant — Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 20px; max-width: 720px; }
+    button { margin: 6px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #log { white-space: pre-wrap; margin-top: 12px; padding: 8px; border: 1px solid #ddd; height: 260px; overflow:auto; background:#fafafa; font-family: monospace; font-size:12px;}
+    #currentQuestion { font-size: 18px; font-weight: bold; margin: 12px 0; padding: 12px; background: #e8f4f8; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h2>Pre-screening Voice Assistant — Demo</h2>
+
+  <label>Backend base URL:
+    <input id="baseUrl" value="http://127.0.0.1:8000" style="width:320px"/>
+  </label>
+  <br/><br/>
+
+  <button id="startSessionBtn">Start Session</button>
+  <button id="recordBtn" disabled>Start Recording Answer</button>
+  <button id="stopBtn" disabled>Stop Recording</button>
+  <button id="sendBtn" disabled>Send Answer</button>
+  <button id="playLastTtsBtn" disabled>Replay Last Question (TTS)</button>
+
+  <div style="margin-top:10px;">
+    <strong>Current question:</strong>
+    <div id="currentQuestion">—</div>
+  <strong>Your answer (editable):</strong>
+  <textarea id="currentAnswer" rows="3" style="width:100%; font-style: normal; color: #222;" placeholder="Transcribed answer will appear here"></textarea>
+    <strong>Session ID:</strong> <span id="sessionId">—</span>
+  </div>
+
+  <div id="log"></div>
+
+<script>
+(async function(){
+  const logEl = document.getElementById('log');
+  const baseUrlInput = document.getElementById('baseUrl');
+  const startSessionBtn = document.getElementById('startSessionBtn');
+  const recordBtn = document.getElementById('recordBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const sendBtn = document.getElementById('sendBtn');
+  const playTtsBtn = document.getElementById('playLastTtsBtn');
+  const sessionIdEl = document.getElementById('sessionId');
+  const currentQuestionEl = document.getElementById('currentQuestion');
+  const currentAnswerEl = document.getElementById('currentAnswer');
+
+  let sessionId = null;
+  let currentQuestion = null;
+  let mediaRecorder = null;
+  let audioChunks = [];
+  let lastQuestionForTts = null;
+  let lastAudioBlob = null;
+  let currentTranscription = null;
+  // ensure send is disabled until there's text
+  sendBtn.disabled = true;
+  currentAnswerEl.addEventListener('input', () => {
+    sendBtn.disabled = (currentAnswerEl.value || '').trim().length === 0;
+  });
+
+  function log(...args){ logEl.textContent = new Date().toLocaleTimeString() + ' ' + args.join(' ') + '\n' + logEl.textContent; }
+
+  startSessionBtn.onclick = async () => {
+    const base = baseUrlInput.value.replace(/\/$/, '');
+    log('Starting session...');
+    try {
+      const res = await fetch(base + '/start_session', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ patient_name: 'Demo Patient' })
+      });
+      if (!res.ok) {
+        const txt = await res.text();
+        log('Start session failed:', res.status, txt);
+        return;
+      }
+      const data = await res.json();
+      sessionId = data.session_id;
+      currentQuestion = data.first_question;
+      sessionIdEl.textContent = sessionId;
+      currentQuestionEl.textContent = currentQuestion;
+      lastQuestionForTts = currentQuestion;
+      log('Session started. question:', currentQuestion);
+      recordBtn.disabled = false;
+      playTtsBtn.disabled = false;
+      speakText(currentQuestion);
+    } catch(e) {
+      log('Start session error:', e.message);
+    }
+  };
+
+  // TTS helper: prefer browser speechSynthesis
+  function speakText(text){
+    if(!text) return;
+    try{
+      const synth = window.speechSynthesis;
+      if(synth){
+        const ut = new SpeechSynthesisUtterance(text);
+        ut.rate = 1.0;
+        synth.cancel();
+        synth.speak(ut);
+        return;
+      }
+    }catch(e){}
+    // fallback: try fetching server /tts (if available)
+    fetchTtsAndPlay(text);
+  }
+
+  async function fetchTtsAndPlay(text){
+    try{
+      const base = baseUrlInput.value.replace(/\/$/, '');
+      const r = await fetch(base + '/tts?text=' + encodeURIComponent(text));
+      if(!r.ok) { log('TTS fetch failed', r.status); return; }
+      const blob = await r.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.play();
+    }catch(e){ log('TTS error', e.message); }
+  }
+
+  // Recording
+  recordBtn.onclick = async () => {
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      alert('getUserMedia not supported');
+      return;
+    }
+    audioChunks = [];
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        lastAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        log('Recording stopped. Transcribing...');
+        sendBtn.disabled = true;
+        // automatically send audio to /transcribe to get immediate editable text
+        (async function(){
+          try{
+            const base = baseUrlInput.value.replace(/\/$/, '');
+            const fd = new FormData();
+            fd.append('audio', lastAudioBlob, 'answer.webm');
+            const r = await fetch(base + '/transcribe', { method: 'POST', body: fd });
+            if(!r.ok){
+              const txt = await r.text();
+              log('Transcription failed: ' + r.status + ' ' + txt);
+              currentAnswerEl.value = '';
+              sendBtn.disabled = true;
+              return;
+            }
+            const j = await r.json();
+            currentTranscription = j.transcription || '';
+            currentAnswerEl.value = currentTranscription;
+            log('Transcription: ' + currentTranscription);
+            // enable send only if transcription non-empty
+            sendBtn.disabled = (currentTranscription || '').trim().length === 0;
+          }catch(e){
+            log('Transcription error: ' + e.message);
+            currentAnswerEl.value = '';
+            sendBtn.disabled = true;
+          }
+        })();
+      };
+      mediaRecorder.start();
+      recordBtn.disabled = true;
+      stopBtn.disabled = false;
+      log('Recording started...');
+    } catch(e) {
+      log('Microphone error:', e.message);
+    }
+  };
+
+  stopBtn.onclick = () => {
+    if(mediaRecorder && mediaRecorder.state !== 'inactive'){
+      mediaRecorder.stop();
+      stopBtn.disabled = true;
+      recordBtn.disabled = false;
+    }
+  };
+
+  // Send recorded audio (or optionally text) to /answer
+  sendBtn.onclick = async () => {
+    if(!sessionId){
+      alert('Start a session first');
+      return;
+    }
+    const answerText = (currentAnswerEl.value || '').trim();
+    if(!answerText){
+      alert('Please record and/or enter your answer before sending.');
+      return;
+    }
+    const base = baseUrlInput.value.replace(/\/$/, '');
+    const fd = new FormData();
+    fd.append('session_id', sessionId);
+    fd.append('question', currentQuestion || '');
+    fd.append('text', answerText);
+
+    log('Sending text answer to server...');
+    sendBtn.disabled = true;
+    recordBtn.disabled = true;
+    try{
+      const r = await fetch(base + '/answer', { method: 'POST', body: fd });
+      if(!r.ok){
+        const txt = await r.text();
+        log('Server returned error: ' + r.status + ' ' + txt);
+        sendBtn.disabled = false;
+        recordBtn.disabled = false;
+        return;
+      }
+      const json = await r.json();
+      log('Server response: ' + JSON.stringify(json));
+      // display returned user_answer (may echo)
+      currentAnswerEl.value = json.user_answer || answerText;
+      if(json.next_question){
+        currentQuestion = json.next_question;
+        currentQuestionEl.textContent = currentQuestion;
+        lastQuestionForTts = currentQuestion;
+        speakText(currentQuestion);
+        recordBtn.disabled = false;
+        // clear previous transcription so user records fresh answer
+        currentTranscription = null;
+        lastAudioBlob = null;
+  // clear the editable answer field for the next question
+  currentAnswerEl.value = '';
+  sendBtn.disabled = true;
+      } else if(json.done){
+        currentQuestionEl.textContent = 'Done (no more questions)';
+        speakText('Thank you. The pre-screening is complete.');
+        recordBtn.disabled = true;
+        stopBtn.disabled = true;
+        sendBtn.disabled = true;
+      }
+    }catch(e){
+      log('Send failed: ' + e.message);
+      recordBtn.disabled = false;
+    } finally {
+      // leave send disabled if there's no text
+      sendBtn.disabled = (currentAnswerEl.value || '').trim().length === 0;
+    }
+  };
+
+  playTtsBtn.onclick = () => {
+    if(lastQuestionForTts) speakText(lastQuestionForTts);
+  };
+
+})();
+</script>
+</body>
+</html>
