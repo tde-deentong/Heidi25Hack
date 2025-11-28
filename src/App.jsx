@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import QuestionnaireHistory from './pages/QuestionnaireHistory';
 
 import { 
 
@@ -30,73 +32,39 @@ import {
 
 
 
-const App = () => {
+// The custom Heidi Knot logo component
+const HeidiLogo = ({ className = "w-8 h-8" }) => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`${className} text-[#2A1B1B]`}>
+     {/* Horizontal Infinity Loop */}
+     <path 
+       d="M3.5 12C3.5 6.5 10 6.5 12 11.5C14 6.5 20.5 6.5 20.5 12C20.5 17.5 14 17.5 12 12.5C10 17.5 3.5 17.5 3.5 12Z" 
+       stroke="currentColor" 
+       strokeWidth="2.5" 
+       strokeLinecap="round" 
+       strokeLinejoin="round"
+     />
+     {/* Vertical Infinity Loop */}
+     <path 
+       d="M12 3.5C6.5 3.5 6.5 10 11.5 12C6.5 14 6.5 20.5 12 20.5C17.5 20.5 17.5 14 12.5 12C17.5 10 17.5 3.5 12 3.5Z" 
+       stroke="currentColor" 
+       strokeWidth="2.5" 
+       strokeLinecap="round" 
+       strokeLinejoin="round"
+     />
+  </svg>
+);
 
+const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-
-
   useEffect(() => {
-
     const handleScroll = () => {
-
       setIsScrolled(window.scrollY > 20);
-
     };
-
     window.addEventListener('scroll', handleScroll);
-
     return () => window.removeEventListener('scroll', handleScroll);
-
   }, []);
-
-
-
-  // The custom Heidi Knot logo component
-
-  const HeidiLogo = ({ className = "w-8 h-8" }) => (
-
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`${className} text-[#2A1B1B]`}>
-
-       {/* Horizontal Infinity Loop */}
-
-       <path 
-
-         d="M3.5 12C3.5 6.5 10 6.5 12 11.5C14 6.5 20.5 6.5 20.5 12C20.5 17.5 14 17.5 12 12.5C10 17.5 3.5 17.5 3.5 12Z" 
-
-         stroke="currentColor" 
-
-         strokeWidth="2.5" 
-
-         strokeLinecap="round" 
-
-         strokeLinejoin="round"
-
-       />
-
-       {/* Vertical Infinity Loop */}
-
-       <path 
-
-         d="M12 3.5C6.5 3.5 6.5 10 11.5 12C6.5 14 6.5 20.5 12 20.5C17.5 20.5 17.5 14 12.5 12C17.5 10 17.5 3.5 12 3.5Z" 
-
-         stroke="currentColor" 
-
-         strokeWidth="2.5" 
-
-         strokeLinecap="round" 
-
-         strokeLinejoin="round"
-
-       />
-
-    </svg>
-
-  );
-
-
 
   return (
 
@@ -134,7 +102,7 @@ const App = () => {
 
             {/* Logo */}
 
-            <a href="#" className="flex items-center gap-2 text-2xl font-serif tracking-tight text-[#2A1B1B]">
+            <Link to="/" className="flex items-center gap-2 text-2xl font-serif tracking-tight text-[#2A1B1B]">
 
               <div className="w-8 h-8 flex items-center justify-center">
 
@@ -144,7 +112,7 @@ const App = () => {
 
               <span className="font-bold">Heidi</span> for patients
 
-            </a>
+            </Link>
 
 
 
@@ -152,13 +120,7 @@ const App = () => {
 
             <div className="hidden lg:flex items-center gap-6 text-[15px] font-medium text-[#2A1B1B]/80 font-sans">
 
-              <a href="#" className="flex items-center gap-1 hover:text-[#2A1B1B] transition-colors">Product <ChevronDown size={14} /></a>
-
-              <a href="#" className="flex items-center gap-1 hover:text-[#2A1B1B] transition-colors">Specialties <ChevronDown size={14} /></a>
-
-              <a href="#" className="hover:text-[#2A1B1B] transition-colors">Pricing</a>
-
-              <a href="#" className="flex items-center gap-1 hover:text-[#2A1B1B] transition-colors">Resources <ChevronDown size={14} /></a>
+              <Link to="/history" className="hover:text-[#2A1B1B] transition-colors">Questionnaire History</Link>
 
             </div>
 
@@ -214,13 +176,7 @@ const App = () => {
 
           <div className="flex flex-col gap-6 text-xl font-medium text-[#2A1B1B]">
 
-            <a href="#" className="flex items-center justify-between">Product <ChevronDown size={16} /></a>
-
-            <a href="#" className="flex items-center justify-between">Specialties <ChevronDown size={16} /></a>
-
-            <a href="#">Pricing</a>
-
-            <a href="#" className="flex items-center justify-between">Resources <ChevronDown size={16} /></a>
+            <Link to="/history" onClick={() => setMobileMenuOpen(false)}>Questionnaire History</Link>
 
             <hr className="border-gray-100" />
 
@@ -484,10 +440,18 @@ const App = () => {
     </div>
 
   );
-
 };
 
-
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/history" element={<QuestionnaireHistory />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
 
