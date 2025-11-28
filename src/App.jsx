@@ -134,7 +134,7 @@ const App = () => {
 
             {/* Logo */}
 
-            <a href="#" className="flex items-center gap-2 text-2xl font-serif font-bold tracking-tight text-[#2A1B1B]">
+            <a href="#" className="flex items-center gap-2 text-2xl font-serif tracking-tight text-[#2A1B1B]">
 
               <div className="w-8 h-8 flex items-center justify-center">
 
@@ -142,7 +142,7 @@ const App = () => {
 
               </div>
 
-              Heidi for patients
+              <span className="font-bold">Heidi</span> for patients
 
             </a>
 
@@ -616,7 +616,7 @@ const App = () => {
 
         <div className="max-w-7xl mx-auto px-4 text-center">
 
-            <div className="flex items-center justify-center gap-2 text-2xl font-serif font-bold tracking-tight text-[#2A1B1B] mb-8">
+            <div className="flex items-center justify-center gap-2 text-2xl font-serif tracking-tight text-[#2A1B1B] mb-8">
 
               <div className="w-8 h-8 flex items-center justify-center">
 
@@ -624,7 +624,7 @@ const App = () => {
 
               </div>
 
-              Heidi for patients
+              <span className="font-bold">Heidi</span> for patients
 
             </div>
 
