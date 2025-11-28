@@ -102,6 +102,19 @@ export const authService = {
     localStorage.setItem(QUESTIONNAIRES_KEY, JSON.stringify(questionnaires));
     
     return submission;
+  },
+
+  // Delete a questionnaire
+  deleteQuestionnaire: (userId, questionnaireId) => {
+    const questionnaires = JSON.parse(localStorage.getItem(QUESTIONNAIRES_KEY) || '{}');
+    if (!questionnaires[userId]) {
+      return false;
+    }
+    
+    questionnaires[userId] = questionnaires[userId].filter(q => q.id !== questionnaireId);
+    localStorage.setItem(QUESTIONNAIRES_KEY, JSON.stringify(questionnaires));
+    
+    return true;
   }
 };
 
