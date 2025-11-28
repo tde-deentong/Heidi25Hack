@@ -8,12 +8,19 @@ const QuestionnaireHistory = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [questionnaires, setQuestionnaires] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      const userQuestionnaires = authService.getUserQuestionnaires(user.id);
-      setQuestionnaires(userQuestionnaires);
-    }
+    const fetchQuestionnaires = async () => {
+      if (user) {
+        setLoading(true);
+        const userQuestionnaires = await authService.getUserQuestionnaires(user.id);
+        setQuestionnaires(userQuestionnaires);
+        setLoading(false);
+      }
+    };
+
+    fetchQuestionnaires();
   }, [user]);
 
   const formatDate = (dateString) => {
@@ -116,7 +123,11 @@ const QuestionnaireHistory = () => {
           View your previously submitted questionnaires
         </p>
 
-        {questionnaires.length === 0 ? (
+        {loading ? (
+          <div className="bg-white rounded-lg border border-gray-100 p-12 text-center">
+            <p className="text-[#2A1B1B]/70">Loading questionnaires...</p>
+          </div>
+        ) : questionnaires.length === 0 ? (
           <div className="bg-white rounded-lg border border-gray-100 p-12 text-center">
             <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <p className="text-[#2A1B1B]/70">No questionnaires found</p>

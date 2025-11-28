@@ -1,105 +1,161 @@
-// Authentication service using localStorage for persistence
-// In production, this would make API calls to a backend
-
-const STORAGE_KEY = 'heidi_patients_auth';
-const USERS_KEY = 'heidi_patients_users';
-const QUESTIONNAIRES_KEY = 'heidi_patients_questionnaires';
+// Authentication service using Firebase Authentication
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile
+} from 'firebase/auth';
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  addDoc,
+  serverTimestamp
+} from 'firebase/firestore';
+import { auth, db } from '../main';
 
 export const authService = {
   // Sign up a new user
   signUp: async (email, password, name) => {
-    // Get existing users
-    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-    
-    // Check if user already exists
-    if (users.find(u => u.email === email)) {
-      throw new Error('An account with this email already exists');
+    try {
+      // Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Update user profile with name
+      await updateProfile(user, {
+        displayName: name
+      });
+
+      // Create user document in Firestore (skip if Firestore fails)
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          name,
+          email,
+          createdAt: serverTimestamp()
+        });
+      } catch (firestoreError) {
+        console.warn('Failed to create user document in Firestore:', firestoreError);
+        // Continue anyway - the auth user is created successfully
+      }
+
+      return {
+        id: user.uid,
+        email: user.email,
+        name: name
+      };
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        throw new Error('An account with this email already exists');
+      } else if (error.code === 'auth/weak-password') {
+        throw new Error('Password should be at least 6 characters');
+      } else if (error.code === 'auth/invalid-email') {
+        throw new Error('Invalid email address');
+      }
+      throw new Error(error.message);
     }
-
-    // Create new user
-    const newUser = {
-      id: Date.now().toString(),
-      email,
-      name,
-      createdAt: new Date().toISOString()
-    };
-
-    // Store password (in production, this would be hashed on the backend)
-    // For demo purposes, we'll store it (not secure, but works for demo)
-    const userWithPassword = {
-      ...newUser,
-      password // In production, never store passwords in localStorage
-    };
-
-    users.push(userWithPassword);
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-
-    // Initialize empty questionnaire history for this user
-    const questionnaires = JSON.parse(localStorage.getItem(QUESTIONNAIRES_KEY) || '{}');
-    questionnaires[newUser.id] = [];
-    localStorage.setItem(QUESTIONNAIRES_KEY, JSON.stringify(questionnaires));
-
-    // Auto-login the new user
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newUser));
-
-    return newUser;
   },
 
   // Login existing user
   login: async (email, password) => {
-    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-    if (!user) {
-      throw new Error('Invalid email or password');
+      // Get user data from Firestore (use displayName if Firestore fails)
+      let userName = user.displayName || '';
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        const userData = userDoc.data();
+        if (userData?.name) {
+          userName = userData.name;
+        }
+      } catch (firestoreError) {
+        console.warn('Failed to fetch user document from Firestore:', firestoreError);
+        // Continue with displayName from auth
+      }
+
+      return {
+        id: user.uid,
+        email: user.email,
+        name: userName
+      };
+    } catch (error) {
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+        throw new Error('Invalid email or password');
+      } else if (error.code === 'auth/invalid-credential') {
+        throw new Error('Invalid email or password');
+      }
+      throw new Error(error.message);
     }
-
-    // Remove password before storing in session
-    const { password: _, ...userWithoutPassword } = user;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(userWithoutPassword));
-
-    return userWithoutPassword;
   },
 
   // Logout current user
-  logout: () => {
-    localStorage.removeItem(STORAGE_KEY);
+  logout: async () => {
+    await signOut(auth);
   },
 
   // Get current logged-in user
   getCurrentUser: () => {
-    const userStr = localStorage.getItem(STORAGE_KEY);
-    if (!userStr) return null;
-    try {
-      return JSON.parse(userStr);
-    } catch {
-      return null;
-    }
+    const user = auth.currentUser;
+    if (!user) return null;
+
+    return {
+      id: user.uid,
+      email: user.email,
+      name: user.displayName || ''
+    };
   },
 
   // Get questionnaires for a user
-  getUserQuestionnaires: (userId) => {
-    const questionnaires = JSON.parse(localStorage.getItem(QUESTIONNAIRES_KEY) || '{}');
-    return questionnaires[userId] || [];
+  getUserQuestionnaires: async (userId) => {
+    try {
+      const q = query(
+        collection(db, 'questionnaires'),
+        where('userId', '==', userId),
+        orderBy('submittedAt', 'desc')
+      );
+
+      const querySnapshot = await getDocs(q);
+      const questionnaires = [];
+
+      querySnapshot.forEach((doc) => {
+        questionnaires.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+
+      return questionnaires;
+    } catch (error) {
+      console.error('Error fetching questionnaires:', error);
+      return [];
+    }
   },
 
   // Save a questionnaire submission
-  saveQuestionnaire: (userId, questionnaireData) => {
-    const questionnaires = JSON.parse(localStorage.getItem(QUESTIONNAIRES_KEY) || '{}');
-    if (!questionnaires[userId]) {
-      questionnaires[userId] = [];
+  saveQuestionnaire: async (userId, questionnaireData) => {
+    try {
+      const docRef = await addDoc(collection(db, 'questionnaires'), {
+        userId,
+        ...questionnaireData,
+        submittedAt: serverTimestamp()
+      });
+
+      return {
+        id: docRef.id,
+        ...questionnaireData,
+        submittedAt: new Date().toISOString()
+      };
+    } catch (error) {
+      console.error('Error saving questionnaire:', error);
+      throw new Error('Failed to save questionnaire');
     }
-    
-    const submission = {
-      id: Date.now().toString(),
-      ...questionnaireData,
-      submittedAt: new Date().toISOString()
-    };
-    
-    questionnaires[userId].push(submission);
-    localStorage.setItem(QUESTIONNAIRES_KEY, JSON.stringify(questionnaires));
-    
-    return submission;
   }
 };
 
