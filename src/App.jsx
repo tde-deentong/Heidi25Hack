@@ -31,7 +31,9 @@ import {
 
   Copy,
 
-  Zap
+  Zap,
+
+  Stethoscope
 
 } from 'lucide-react';
 
@@ -353,9 +355,9 @@ const Home = () => {
 
               <button className="bg-[#1C1C1C] text-white px-10 py-4 rounded-full text-lg font-medium hover:bg-black transition-all hover:-translate-y-1 shadow-2xl flex items-center gap-2">
 
-                <Sparkles size={20} className="fill-white" />
+                <Stethoscope size={20} />
 
-                Get Heidi for patients free
+                Chat with Heidi
 
               </button>
 
