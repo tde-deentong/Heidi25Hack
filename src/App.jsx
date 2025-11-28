@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import QuestionnaireHistory from './pages/QuestionnaireHistory';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import { useAuth } from './context/AuthContext';
 
 import { 
 
@@ -57,6 +60,9 @@ const HeidiLogo = ({ className = "w-8 h-8" }) => (
 const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -138,13 +144,32 @@ const Home = () => {
 
             <a href="#" className="text-sm font-medium text-[#2A1B1B] hover:opacity-70">Contact us</a>
 
-            <a href="#" className="px-5 py-2.5 rounded-full text-sm font-medium text-[#2A1B1B] bg-gray-100 hover:bg-gray-200 transition-colors">Log in</a>
-
-            <button className="bg-[#FDFD96] text-[#2A1B1B] px-6 py-2.5 rounded-full text-sm font-bold hover:bg-[#FBFB80] transition-all hover:scale-105 active:scale-95 shadow-sm">
-
-              Sign up
-
-            </button>
+            {user ? (
+              <>
+                <span className="text-sm text-[#2A1B1B]/70">{user.name}</span>
+                <button 
+                  onClick={logout}
+                  className="px-5 py-2.5 rounded-full text-sm font-medium text-[#2A1B1B] bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  Log out
+                </button>
+              </>
+            ) : (
+              <>
+                <button 
+                  onClick={() => setShowLogin(true)}
+                  className="px-5 py-2.5 rounded-full text-sm font-medium text-[#2A1B1B] bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  Log in
+                </button>
+                <button 
+                  onClick={() => setShowSignUp(true)}
+                  className="bg-[#FDFD96] text-[#2A1B1B] px-6 py-2.5 rounded-full text-sm font-bold hover:bg-[#FBFB80] transition-all hover:scale-105 active:scale-95 shadow-sm"
+                >
+                  Sign up
+                </button>
+              </>
+            )}
 
           </div>
 
@@ -181,11 +206,41 @@ const Home = () => {
             <hr className="border-gray-100" />
 
             <div className="flex flex-col gap-4">
-
-               <a href="#" className="text-center py-3 bg-gray-100 rounded-full font-semibold">Log in</a>
-
-               <button className="bg-[#FDFD96] text-[#2A1B1B] w-full py-3 rounded-full font-bold">Sign up</button>
-
+              {user ? (
+                <>
+                  <span className="text-center py-3 text-[#2A1B1B]">{user.name}</span>
+                  <button 
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-center py-3 bg-gray-100 rounded-full font-semibold"
+                  >
+                    Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button 
+                    onClick={() => {
+                      setShowLogin(true);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-center py-3 bg-gray-100 rounded-full font-semibold"
+                  >
+                    Log in
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setShowSignUp(true);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="bg-[#FDFD96] text-[#2A1B1B] w-full py-3 rounded-full font-bold"
+                  >
+                    Sign up
+                  </button>
+                </>
+              )}
             </div>
 
           </div>
@@ -436,6 +491,27 @@ const Home = () => {
         </div>
 
       </footer>
+
+      {/* Auth Modals */}
+      {showLogin && (
+        <Login 
+          onClose={() => setShowLogin(false)}
+          onSwitchToSignUp={() => {
+            setShowLogin(false);
+            setShowSignUp(true);
+          }}
+        />
+      )}
+
+      {showSignUp && (
+        <SignUp 
+          onClose={() => setShowSignUp(false)}
+          onSwitchToLogin={() => {
+            setShowSignUp(false);
+            setShowLogin(true);
+          }}
+        />
+      )}
 
     </div>
 

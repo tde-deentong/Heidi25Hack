@@ -1,10 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, FileText, Calendar, Clock, ChevronDown } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { authService } from '../services/authService';
 
 const QuestionnaireHistory = () => {
-  // In production, this would come from an API
-  const questionnaires = [];
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [questionnaires, setQuestionnaires] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      const userQuestionnaires = authService.getUserQuestionnaires(user.id);
+      setQuestionnaires(userQuestionnaires);
+    }
+  }, [user]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -22,6 +32,25 @@ const QuestionnaireHistory = () => {
       minute: '2-digit' 
     });
   };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#FCFCFA] flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
+          <h2 className="text-2xl font-semibold text-[#2A1B1B] mb-4">Please log in</h2>
+          <p className="text-[#2A1B1B]/70 mb-6">
+            You need to be logged in to view your questionnaire history.
+          </p>
+          <Link
+            to="/"
+            className="inline-block bg-[#2A1B1B] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#1A0F0F] transition-colors"
+          >
+            Go to home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#FCFCFA]">
@@ -59,9 +88,12 @@ const QuestionnaireHistory = () => {
               <span>🇦🇺</span> AU <ChevronDown size={14} />
             </button>
             <a href="#" className="text-sm font-medium text-[#2A1B1B] hover:opacity-70">Contact us</a>
-            <a href="#" className="px-5 py-2.5 rounded-full text-sm font-medium text-[#2A1B1B] bg-gray-100 hover:bg-gray-200 transition-colors">Log in</a>
-            <button className="bg-[#FDFD96] text-[#2A1B1B] px-6 py-2.5 rounded-full text-sm font-bold hover:bg-[#FBFB80] transition-all hover:scale-105 active:scale-95 shadow-sm">
-              Sign up
+            <span className="text-sm text-[#2A1B1B]/70">{user.name}</span>
+            <button 
+              onClick={logout}
+              className="px-5 py-2.5 rounded-full text-sm font-medium text-[#2A1B1B] bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              Log out
             </button>
           </div>
         </div>
@@ -99,18 +131,22 @@ const QuestionnaireHistory = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="text-lg font-semibold text-[#2A1B1B] mb-1">
-                      {questionnaire.clinic}
+                      {questionnaire.clinic?.name || questionnaire.clinic || 'Unknown Clinic'}
                     </h3>
-                    <div className="flex items-center gap-4 text-sm text-[#2A1B1B]/70">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar size={16} />
-                        <span>{formatDate(questionnaire.appointmentDate)}</span>
+                    {questionnaire.appointmentDate && (
+                      <div className="flex items-center gap-4 text-sm text-[#2A1B1B]/70">
+                        <div className="flex items-center gap-1.5">
+                          <Calendar size={16} />
+                          <span>{formatDate(questionnaire.appointmentDate)}</span>
+                        </div>
+                        {questionnaire.appointmentTime && (
+                          <div className="flex items-center gap-1.5">
+                            <Clock size={16} />
+                            <span>{questionnaire.appointmentTime}</span>
+                          </div>
+                        )}
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <Clock size={16} />
-                        <span>{questionnaire.appointmentTime}</span>
-                      </div>
-                    </div>
+                    )}
                   </div>
                   <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
                     Completed
