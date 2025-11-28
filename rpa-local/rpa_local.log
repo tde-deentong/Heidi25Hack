@@ -1,0 +1,668 @@
+2025-11-29 01:46:36,200 INFO: Auto pre-warm: initializing OCR in background
+2025-11-29 01:46:36,201 INFO: Initializing PaddleOCR (this may download model files)
+2025-11-29 01:46:37,503 INFO: PaddleOCR initialized
+2025-11-29 01:46:37,504 INFO: Auto pre-warm complete
+2025-11-29 01:47:03,017 INFO: RPA run started
+2025-11-29 01:47:03,017 ERROR: OCR failed during rpa_collect_for_prompt
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 137, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 125, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 65, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 01:47:03,025 ERROR: RPA worker error
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 137, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 125, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 65, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 287, in worker
+    res = rpa_collect_for_prompt(prompt, additional_fields=fields)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 140, in rpa_collect_for_prompt
+    raise RuntimeError(f"OCR failed: {e}")
+RuntimeError: OCR failed: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 01:51:36,837 INFO: Auto pre-warm: initializing OCR in background
+2025-11-29 01:51:36,837 INFO: Initializing PaddleOCR (this may download model files)
+2025-11-29 01:51:37,988 INFO: PaddleOCR initialized
+2025-11-29 01:51:37,989 INFO: Auto pre-warm complete
+2025-11-29 01:52:06,533 INFO: RPA run started
+2025-11-29 01:52:06,533 ERROR: OCR failed during rpa_collect_for_prompt
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 137, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 125, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 65, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 01:52:06,535 ERROR: RPA worker error
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 137, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 125, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 65, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 287, in worker
+    res = rpa_collect_for_prompt(prompt, additional_fields=fields)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 140, in rpa_collect_for_prompt
+    raise RuntimeError(f"OCR failed: {e}")
+RuntimeError: OCR failed: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 01:53:39,236 INFO: Auto pre-warm: initializing OCR in background
+2025-11-29 01:53:39,237 INFO: Initializing PaddleOCR (this may download model files)
+2025-11-29 01:53:40,439 INFO: PaddleOCR initialized
+2025-11-29 01:53:40,439 INFO: Auto pre-warm complete
+2025-11-29 01:54:12,146 INFO: RPA run started
+2025-11-29 01:54:12,146 ERROR: OCR failed during rpa_collect_for_prompt
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 161, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 149, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 89, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 01:54:12,149 ERROR: RPA worker error
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 161, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 149, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 89, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 311, in worker
+    res = rpa_collect_for_prompt(prompt, additional_fields=fields)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 164, in rpa_collect_for_prompt
+    raise RuntimeError(f"OCR failed: {e}")
+RuntimeError: OCR failed: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 02:04:00,243 INFO: Auto pre-warm: initializing OCR in background
+2025-11-29 02:04:00,244 INFO: Initializing PaddleOCR (this may download model files)
+2025-11-29 02:04:01,556 INFO: PaddleOCR initialized
+2025-11-29 02:04:01,557 INFO: Auto pre-warm complete
+2025-11-29 02:04:29,169 INFO: RPA run started
+2025-11-29 02:04:29,170 ERROR: pyscreeze.grab() failed, falling back to pyautogui.screenshot()
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 73, in screenshot
+    return pyscreeze.grab()
+AttributeError: module 'pyscreeze' has no attribute 'grab'
+2025-11-29 02:04:29,171 ERROR: OCR failed during rpa_collect_for_prompt
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 252, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 240, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 79, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 02:04:29,173 ERROR: RPA worker error
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 252, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 240, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 79, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 402, in worker
+    res = rpa_collect_for_prompt(prompt, additional_fields=fields)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 255, in rpa_collect_for_prompt
+    raise RuntimeError(f"OCR failed: {e}")
+RuntimeError: OCR failed: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 02:18:42,061 INFO: Auto pre-warm: initializing OCR in background
+2025-11-29 02:18:42,061 INFO: Initializing PaddleOCR (this may download model files)
+2025-11-29 02:18:43,211 INFO: PaddleOCR initialized
+2025-11-29 02:18:43,212 INFO: Auto pre-warm complete
+2025-11-29 02:19:08,064 INFO: RPA run started
+2025-11-29 02:19:08,064 ERROR: pyscreeze.grab() failed, falling back to pyautogui.screenshot()
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 73, in screenshot
+    return pyscreeze.grab()
+AttributeError: module 'pyscreeze' has no attribute 'grab'
+2025-11-29 02:19:08,066 ERROR: OCR failed during rpa_collect_for_prompt
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 252, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 240, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 79, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 02:19:08,068 ERROR: RPA worker error
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 252, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 240, in find_text_on_screen_all
+    img = screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 79, in screenshot
+    return pyautogui.screenshot()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\pyautogui\__init__.py", line 231, in _couldNotImportPyScreeze
+    raise PyAutoGUIException(
+pyautogui.PyAutoGUIException: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 402, in worker
+    res = rpa_collect_for_prompt(prompt, additional_fields=fields)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 255, in rpa_collect_for_prompt
+    raise RuntimeError(f"OCR failed: {e}")
+RuntimeError: OCR failed: PyAutoGUI was unable to import pyscreeze. (This is likely because you're running a version of Python that Pillow (which pyscreeze depends on) doesn't support currently.) Please install this module to enable the function you tried to call.
+2025-11-29 02:21:23,553 INFO: Auto pre-warm: initializing OCR in background
+2025-11-29 02:21:23,554 INFO: Initializing PaddleOCR (this may download model files)
+2025-11-29 02:21:24,872 INFO: PaddleOCR initialized
+2025-11-29 02:21:24,873 INFO: Auto pre-warm complete
+2025-11-29 02:21:38,628 INFO: RPA run started
+2025-11-29 02:21:38,781 ERROR: OCR failed during rpa_collect_for_prompt
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 289, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 278, in find_text_on_screen_all
+    return run_ocr_on_image(img)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 229, in run_ocr_on_image
+    raw = OCR.ocr(arr, det=True, rec=True, cls=True)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\paddleocr.py", line 534, in ocr
+    dt_boxes, rec_res, _ = self.__call__(img, cls)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\tools\infer\predict_system.py", line 71, in __call__
+    dt_boxes, elapse = self.text_detector(img)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\tools\infer\predict_det.py", line 243, in __call__
+    self.predictor.run()
+RuntimeError: In user code:
+
+    File "tools/export_model.py", line 187, in <module>
+      main()
+    File "tools/export_model.py", line 179, in main
+      sub_model_save_path, logger)
+    File "tools/export_model.py", line 106, in export_single_model
+      paddle.jit.save(model, save_path)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 629, in wrapper
+      func(layer, path, input_spec, **configs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 857, in save
+      inner_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 528, in concrete_program_specify_input_spec
+      *desired_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 436, in get_concrete_program
+      concrete_program, partial_program_layer = self._program_cache[cache_key]
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 801, in __getitem__
+      self._caches[item_id] = self._build_once(item)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 790, in _build_once
+      **cache_key.kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 733, in from_func_spec
+      outputs = static_func(*inputs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/architectures/base_model.py", line 79, in forward
+      x = self.backbone(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 146, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 179, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/layer/conv.py", line 678, in forward
+      use_cudnn=self._use_cudnn)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/functional/conv.py", line 169, in _conv_nd
+      type=op_type, inputs=inputs, outputs=outputs, attrs=attrs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/layer_helper.py", line 44, in append_op
+      return self.main_program.current_block().append_op(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 3621, in append_op
+      attrs=kwargs.get("attrs", None))
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 2635, in __init__
+      for frame in traceback.extract_stack():
+
+    NotFoundError: OneDnnContext does not have the input Filter.
+      [Hint: Expected it != inputs_name_.end(), but received it == inputs_name_.end().] (at ..\paddle\phi\backends\onednn\onednn_context.cc:345)
+      [operator < fused_conv2d > error]
+2025-11-29 02:21:38,791 ERROR: RPA worker error
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 289, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 278, in find_text_on_screen_all
+    return run_ocr_on_image(img)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 229, in run_ocr_on_image
+    raw = OCR.ocr(arr, det=True, rec=True, cls=True)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\paddleocr.py", line 534, in ocr
+    dt_boxes, rec_res, _ = self.__call__(img, cls)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\tools\infer\predict_system.py", line 71, in __call__
+    dt_boxes, elapse = self.text_detector(img)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\tools\infer\predict_det.py", line 243, in __call__
+    self.predictor.run()
+RuntimeError: In user code:
+
+    File "tools/export_model.py", line 187, in <module>
+      main()
+    File "tools/export_model.py", line 179, in main
+      sub_model_save_path, logger)
+    File "tools/export_model.py", line 106, in export_single_model
+      paddle.jit.save(model, save_path)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 629, in wrapper
+      func(layer, path, input_spec, **configs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 857, in save
+      inner_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 528, in concrete_program_specify_input_spec
+      *desired_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 436, in get_concrete_program
+      concrete_program, partial_program_layer = self._program_cache[cache_key]
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 801, in __getitem__
+      self._caches[item_id] = self._build_once(item)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 790, in _build_once
+      **cache_key.kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 733, in from_func_spec
+      outputs = static_func(*inputs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/architectures/base_model.py", line 79, in forward
+      x = self.backbone(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 146, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 179, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/layer/conv.py", line 678, in forward
+      use_cudnn=self._use_cudnn)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/functional/conv.py", line 169, in _conv_nd
+      type=op_type, inputs=inputs, outputs=outputs, attrs=attrs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/layer_helper.py", line 44, in append_op
+      return self.main_program.current_block().append_op(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 3621, in append_op
+      attrs=kwargs.get("attrs", None))
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 2635, in __init__
+      for frame in traceback.extract_stack():
+
+    NotFoundError: OneDnnContext does not have the input Filter.
+      [Hint: Expected it != inputs_name_.end(), but received it == inputs_name_.end().] (at ..\paddle\phi\backends\onednn\onednn_context.cc:345)
+      [operator < fused_conv2d > error]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 439, in worker
+    res = rpa_collect_for_prompt(prompt, additional_fields=fields)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 292, in rpa_collect_for_prompt
+    raise RuntimeError(f"OCR failed: {e}")
+RuntimeError: OCR failed: In user code:
+
+    File "tools/export_model.py", line 187, in <module>
+      main()
+    File "tools/export_model.py", line 179, in main
+      sub_model_save_path, logger)
+    File "tools/export_model.py", line 106, in export_single_model
+      paddle.jit.save(model, save_path)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 629, in wrapper
+      func(layer, path, input_spec, **configs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 857, in save
+      inner_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 528, in concrete_program_specify_input_spec
+      *desired_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 436, in get_concrete_program
+      concrete_program, partial_program_layer = self._program_cache[cache_key]
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 801, in __getitem__
+      self._caches[item_id] = self._build_once(item)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 790, in _build_once
+      **cache_key.kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 733, in from_func_spec
+      outputs = static_func(*inputs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/architectures/base_model.py", line 79, in forward
+      x = self.backbone(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 146, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 179, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/layer/conv.py", line 678, in forward
+      use_cudnn=self._use_cudnn)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/functional/conv.py", line 169, in _conv_nd
+      type=op_type, inputs=inputs, outputs=outputs, attrs=attrs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/layer_helper.py", line 44, in append_op
+      return self.main_program.current_block().append_op(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 3621, in append_op
+      attrs=kwargs.get("attrs", None))
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 2635, in __init__
+      for frame in traceback.extract_stack():
+
+    NotFoundError: OneDnnContext does not have the input Filter.
+      [Hint: Expected it != inputs_name_.end(), but received it == inputs_name_.end().] (at ..\paddle\phi\backends\onednn\onednn_context.cc:345)
+      [operator < fused_conv2d > error]
+2025-11-29 02:32:22,884 INFO: Auto pre-warm: initializing OCR in background
+2025-11-29 02:32:22,885 INFO: Initializing PaddleOCR (this may download model files)
+2025-11-29 02:32:24,142 INFO: PaddleOCR initialized
+2025-11-29 02:32:24,143 INFO: Auto pre-warm complete
+2025-11-29 02:32:47,981 INFO: RPA run started
+2025-11-29 02:32:48,082 ERROR: OCR failed during rpa_collect_for_prompt
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 299, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 288, in find_text_on_screen_all
+    return run_ocr_on_image(img)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 239, in run_ocr_on_image
+    raw = OCR.ocr(arr, det=True, rec=True, cls=True)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\paddleocr.py", line 534, in ocr
+    dt_boxes, rec_res, _ = self.__call__(img, cls)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\tools\infer\predict_system.py", line 71, in __call__
+    dt_boxes, elapse = self.text_detector(img)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\tools\infer\predict_det.py", line 243, in __call__
+    self.predictor.run()
+RuntimeError: In user code:
+
+    File "tools/export_model.py", line 187, in <module>
+      main()
+    File "tools/export_model.py", line 179, in main
+      sub_model_save_path, logger)
+    File "tools/export_model.py", line 106, in export_single_model
+      paddle.jit.save(model, save_path)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 629, in wrapper
+      func(layer, path, input_spec, **configs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 857, in save
+      inner_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 528, in concrete_program_specify_input_spec
+      *desired_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 436, in get_concrete_program
+      concrete_program, partial_program_layer = self._program_cache[cache_key]
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 801, in __getitem__
+      self._caches[item_id] = self._build_once(item)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 790, in _build_once
+      **cache_key.kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 733, in from_func_spec
+      outputs = static_func(*inputs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/architectures/base_model.py", line 79, in forward
+      x = self.backbone(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 146, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 179, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/layer/conv.py", line 678, in forward
+      use_cudnn=self._use_cudnn)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/functional/conv.py", line 169, in _conv_nd
+      type=op_type, inputs=inputs, outputs=outputs, attrs=attrs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/layer_helper.py", line 44, in append_op
+      return self.main_program.current_block().append_op(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 3621, in append_op
+      attrs=kwargs.get("attrs", None))
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 2635, in __init__
+      for frame in traceback.extract_stack():
+
+    NotFoundError: OneDnnContext does not have the input Filter.
+      [Hint: Expected it != inputs_name_.end(), but received it == inputs_name_.end().] (at ..\paddle\phi\backends\onednn\onednn_context.cc:345)
+      [operator < fused_conv2d > error]
+2025-11-29 02:32:48,091 ERROR: RPA worker error
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 299, in rpa_collect_for_prompt
+    ocr_lines = find_text_on_screen_all()
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 288, in find_text_on_screen_all
+    return run_ocr_on_image(img)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 239, in run_ocr_on_image
+    raw = OCR.ocr(arr, det=True, rec=True, cls=True)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\paddleocr.py", line 534, in ocr
+    dt_boxes, rec_res, _ = self.__call__(img, cls)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\tools\infer\predict_system.py", line 71, in __call__
+    dt_boxes, elapse = self.text_detector(img)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\.venv\lib\site-packages\paddleocr\tools\infer\predict_det.py", line 243, in __call__
+    self.predictor.run()
+RuntimeError: In user code:
+
+    File "tools/export_model.py", line 187, in <module>
+      main()
+    File "tools/export_model.py", line 179, in main
+      sub_model_save_path, logger)
+    File "tools/export_model.py", line 106, in export_single_model
+      paddle.jit.save(model, save_path)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 629, in wrapper
+      func(layer, path, input_spec, **configs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 857, in save
+      inner_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 528, in concrete_program_specify_input_spec
+      *desired_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 436, in get_concrete_program
+      concrete_program, partial_program_layer = self._program_cache[cache_key]
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 801, in __getitem__
+      self._caches[item_id] = self._build_once(item)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 790, in _build_once
+      **cache_key.kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 733, in from_func_spec
+      outputs = static_func(*inputs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/architectures/base_model.py", line 79, in forward
+      x = self.backbone(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 146, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 179, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/layer/conv.py", line 678, in forward
+      use_cudnn=self._use_cudnn)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/functional/conv.py", line 169, in _conv_nd
+      type=op_type, inputs=inputs, outputs=outputs, attrs=attrs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/layer_helper.py", line 44, in append_op
+      return self.main_program.current_block().append_op(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 3621, in append_op
+      attrs=kwargs.get("attrs", None))
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 2635, in __init__
+      for frame in traceback.extract_stack():
+
+    NotFoundError: OneDnnContext does not have the input Filter.
+      [Hint: Expected it != inputs_name_.end(), but received it == inputs_name_.end().] (at ..\paddle\phi\backends\onednn\onednn_context.cc:345)
+      [operator < fused_conv2d > error]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 449, in worker
+    res = rpa_collect_for_prompt(prompt, additional_fields=fields)
+  File "C:\GithubRepos\Heidi25Hack\rpa-local\app.py", line 302, in rpa_collect_for_prompt
+    raise RuntimeError(f"OCR failed: {e}")
+RuntimeError: OCR failed: In user code:
+
+    File "tools/export_model.py", line 187, in <module>
+      main()
+    File "tools/export_model.py", line 179, in main
+      sub_model_save_path, logger)
+    File "tools/export_model.py", line 106, in export_single_model
+      paddle.jit.save(model, save_path)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 629, in wrapper
+      func(layer, path, input_spec, **configs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/jit.py", line 857, in save
+      inner_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 528, in concrete_program_specify_input_spec
+      *desired_input_spec, with_hook=with_hook)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 436, in get_concrete_program
+      concrete_program, partial_program_layer = self._program_cache[cache_key]
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 801, in __getitem__
+      self._caches[item_id] = self._build_once(item)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 790, in _build_once
+      **cache_key.kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/decorator.py", line 232, in fun
+      return caller(func, *(extras + args), **kw)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/wrapped_decorator.py", line 25, in __impl__
+      return wrapped_func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/base.py", line 51, in __impl__
+      return func(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/dygraph_to_static/program_translator.py", line 733, in from_func_spec
+      outputs = static_func(*inputs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/architectures/base_model.py", line 79, in forward
+      x = self.backbone(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 146, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/paddle/debug/PaddleOCR/ppocr/modeling/backbones/det_mobilenet_v3.py", line 179, in forward
+      x = self.conv(x)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 930, in __call__
+      return self._dygraph_call_func(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 915, in _dygraph_call_func
+      outputs = self.forward(*inputs, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/layer/conv.py", line 678, in forward
+      use_cudnn=self._use_cudnn)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/nn/functional/conv.py", line 169, in _conv_nd
+      type=op_type, inputs=inputs, outputs=outputs, attrs=attrs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/layer_helper.py", line 44, in append_op
+      return self.main_program.current_block().append_op(*args, **kwargs)
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 3621, in append_op
+      attrs=kwargs.get("attrs", None))
+    File "/root/anaconda3/envs/fgd/lib/python3.7/site-packages/paddle/fluid/framework.py", line 2635, in __init__
+      for frame in traceback.extract_stack():
+
+    NotFoundError: OneDnnContext does not have the input Filter.
+      [Hint: Expected it != inputs_name_.end(), but received it == inputs_name_.end().] (at ..\paddle\phi\backends\onednn\onednn_context.cc:345)
+      [operator < fused_conv2d > error]
