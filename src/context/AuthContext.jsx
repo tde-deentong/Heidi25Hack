@@ -14,9 +14,9 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const signUp = async (email, password, name, dateOfBirth) => {
+  const signUp = async (email, password, name, phoneNumber, dateOfBirth) => {
     try {
-      const newUser = await authService.signUp(email, password, name, dateOfBirth);
+      const newUser = await authService.signUp(email, password, name, phoneNumber, dateOfBirth);
       setUser(newUser);
       return { success: true, user: newUser };
     } catch (error) {

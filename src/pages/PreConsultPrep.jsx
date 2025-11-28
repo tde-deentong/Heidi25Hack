@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, AlertCircle, ArrowRight, Phone } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const PreConsultPrep = () => {
@@ -8,6 +8,7 @@ const PreConsultPrep = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
+    phoneNumber: '',
     dateOfBirth: ''
   });
   const [error, setError] = useState('');
@@ -34,6 +35,12 @@ const PreConsultPrep = () => {
       return;
     }
 
+    if (!formData.phoneNumber.trim()) {
+      setError('Please enter your phone number');
+      setIsSubmitting(false);
+      return;
+    }
+
     if (!formData.dateOfBirth.trim()) {
       setError('Please enter your date of birth');
       setIsSubmitting(false);
@@ -50,6 +57,24 @@ const PreConsultPrep = () => {
       
       if (!nameMatch) {
         setError('The name you entered does not match our records. Please check and try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Check if phone number matches (normalize by removing spaces, dashes, parentheses)
+      const normalizePhone = (phone) => phone.replace(/[\s\-\(\)]/g, '');
+      const userPhone = user.phoneNumber ? normalizePhone(user.phoneNumber) : '';
+      const inputPhone = normalizePhone(formData.phoneNumber);
+      
+      if (userPhone && userPhone !== inputPhone) {
+        setError('The phone number you entered does not match our records. Please check and try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Check if date of birth matches
+      if (user.dateOfBirth && user.dateOfBirth !== formData.dateOfBirth) {
+        setError('The date of birth you entered does not match our records. Please check and try again.');
         setIsSubmitting(false);
         return;
       }
@@ -138,6 +163,26 @@ const PreConsultPrep = () => {
                   required
                   aria-required="true"
                 />
+              </div>
+
+              <div>
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-[#2A1B1B] mb-2">
+                  Phone Number
+                </label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2A1B1B] focus:border-transparent"
+                    placeholder="(555) 123-4567"
+                    required
+                    aria-required="true"
+                  />
+                </div>
               </div>
 
               <div>

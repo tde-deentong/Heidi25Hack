@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { X, Mail, Lock, User, Calendar } from 'lucide-react';
+import { X, Mail, Lock, User, Calendar, Phone } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const SignUp = ({ onClose, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phoneNumber: '',
     dateOfBirth: '',
     password: '',
     confirmPassword: ''
@@ -40,6 +41,20 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
       return;
     }
 
+    if (!formData.phoneNumber.trim()) {
+      setError('Please enter your phone number');
+      setLoading(false);
+      return;
+    }
+
+    // Basic phone number validation (10 digits minimum)
+    const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
+    if (!phoneRegex.test(formData.phoneNumber.replace(/\s/g, ''))) {
+      setError('Please enter a valid phone number');
+      setLoading(false);
+      return;
+    }
+
     if (!formData.dateOfBirth.trim()) {
       setError('Please enter your date of birth');
       setLoading(false);
@@ -59,7 +74,7 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
     }
 
     // Sign up
-    const result = await signUp(formData.email, formData.password, formData.name, formData.dateOfBirth);
+    const result = await signUp(formData.email, formData.password, formData.name, formData.phoneNumber, formData.dateOfBirth);
     
     if (result.success) {
       onClose();
@@ -122,6 +137,25 @@ const SignUp = ({ onClose, onSwitchToLogin }) => {
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2A1B1B] focus:border-transparent"
                   placeholder="you@example.com"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-[#2A1B1B] mb-2">
+                Phone Number
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2A1B1B] focus:border-transparent"
+                  placeholder="(555) 123-4567"
                   required
                 />
               </div>
