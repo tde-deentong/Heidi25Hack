@@ -7,7 +7,7 @@ const QUESTIONNAIRES_KEY = 'heidi_patients_questionnaires';
 
 export const authService = {
   // Sign up a new user
-  signUp: async (email, password, name) => {
+  signUp: async (email, password, name, dateOfBirth) => {
     // Get existing users
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
     
@@ -21,6 +21,7 @@ export const authService = {
       id: Date.now().toString(),
       email,
       name,
+      dateOfBirth,
       createdAt: new Date().toISOString()
     };
 

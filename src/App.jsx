@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import QuestionnaireHistory from './pages/QuestionnaireHistory';
+import PreConsultPrep from './pages/PreConsultPrep';
+import PreScreen from './pages/PreScreen';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import { useAuth } from './context/AuthContext';
@@ -378,7 +380,7 @@ const Home = () => {
 
           <div className="text-center mb-20">
 
-            <h2 className="text-3xl md:text-5xl font-medium text-[#2A1B1B] mb-6">Built for the way you practice.</h2>
+            <h2 className="text-3xl md:text-5xl font-medium text-[#2A1B1B] mb-6">Built to make your visit easier.</h2>
 
           </div>
 
@@ -388,23 +390,27 @@ const Home = () => {
 
             {/* Feature 1 */}
 
-            <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 group">
+            <Link to="/pre-consult-prep" className="block">
 
-              <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
+              <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 group cursor-pointer">
 
-                <FileText />
+                <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
+
+                  <FileText />
+
+                </div>
+
+                <h3 className="text-xl font-bold text-[#2A1B1B] mb-3">Pre-consult prep</h3>
+
+                <p className="text-gray-500 leading-relaxed">
+
+                  Review history, notes, and results in one place. Sync your schedule and walk in prepared.
+
+                </p>
 
               </div>
 
-              <h3 className="text-xl font-bold text-[#2A1B1B] mb-3">Pre-consult prep</h3>
-
-              <p className="text-gray-500 leading-relaxed">
-
-                Review history, notes, and results in one place. Sync your schedule and walk in prepared.
-
-              </p>
-
-            </div>
+            </Link>
 
 
 
@@ -524,6 +530,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/history" element={<QuestionnaireHistory />} />
+        <Route path="/pre-consult-prep" element={<PreConsultPrep />} />
+        <Route path="/pre-screen" element={<PreScreen />} />
       </Routes>
     </Router>
   );
