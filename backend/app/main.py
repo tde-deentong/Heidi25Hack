@@ -26,7 +26,18 @@ if static_dir.exists():
 @app.on_event("startup")
 async def startup_event():
     # ensure DB client created
-    db.get_client()
+    client = db.get_client()
+    try:
+        # create indexes for sessions collection to speed lookups and ensure unique session_id
+        db_instance = db.get_db()
+        col = db_instance["sessions"]
+        # session_id should be unique
+        await col.create_index([("session_id", 1)], unique=True)
+        # index created_at for range queries
+        await col.create_index([("created_at", 1)])
+    except Exception:
+        # if DB isn't available at startup, we'll fallback at runtime
+        pass
 
 @app.on_event("shutdown")
 async def shutdown_event():

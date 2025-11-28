@@ -1,0 +1,13 @@
+# root .dockerignore
+node_modules
+**/node_modules
+**/__pycache__
+**/.pytest_cache
+*.pyc
+.env
+backend/.venv
+.git
+.DS_Store
+npm-debug.log
+dist
+build
