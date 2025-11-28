@@ -100,7 +100,7 @@ const App = () => {
 
   return (
 
-    <div className="font-sans text-[#2A1B1B] antialiased bg-[#FCFCFA] selection:bg-yellow-200 overflow-x-hidden">
+    <div className="text-[#2A1B1B] antialiased bg-[#FCFCFA] selection:bg-yellow-200 overflow-x-hidden" style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif" }}>
 
       
 
@@ -108,7 +108,7 @@ const App = () => {
 
       <div className="bg-[#FDFD96] px-4 py-2 text-center text-xs sm:text-sm font-medium flex items-center justify-center gap-2 cursor-pointer hover:bg-[#FBFB80] transition-colors">
 
-        <span>Heidi for patients announces <strong>$65m Series B</strong> to accelerate building the AI Care Partner for Clinicians</span>
+        <span>Heidi for Patients makes it easier to share your symptoms and health story before your visit.</span>
 
         <ArrowRight size={14} />
 
@@ -242,7 +242,7 @@ const App = () => {
 
       {/* Hero Section */}
 
-      <section className="relative pt-20 pb-32 lg:pt-32 lg:pb-48 overflow-hidden">
+      <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden">
 
         
 
@@ -314,23 +314,23 @@ const App = () => {
 
 
 
-            <p className="text-[#2A1B1B]/70 font-medium mb-8">AI trusted and loved by clinicians</p>
+            <p className="text-[#2A1B1B]/70 font-normal mb-6 text-sm md:text-base tracking-wide">Trusted by clinics. Made for patients.</p>
 
             
 
-            <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-medium tracking-tight text-[#2A1B1B] mb-8 leading-[0.95]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.02em] text-[#2A1B1B] mb-6 leading-[1.15] max-w-4xl mx-auto">
 
-              Get time <span className="font-serif italic font-light">back</span>.<br />
+              Skip the waiting room paperwork.<br />
 
-              Move care <span className="font-serif italic font-light">forward</span>.
+              Start your visit prepared.
 
             </h1>
 
             
 
-            <p className="text-xl md:text-2xl text-[#2A1B1B]/70 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+            <p className="text-lg md:text-xl text-[#2A1B1B]/70 mb-12 max-w-2xl mx-auto leading-[1.6] font-normal tracking-wide">
 
-              Your AI scribe capturing notes, summaries, and follow-ups as you go. By your side while care flows.
+              Help your clinician understand your concerns ahead of time, so your visit feels smoother and more personal.
 
             </p>
 
@@ -356,169 +356,6 @@ const App = () => {
 
 
 
-      {/* App Mockup Section (Recreated roughly from Context) */}
-
-      <section className="bg-white py-12 border-t border-gray-100">
-
-         <div className="max-w-7xl mx-auto px-4">
-
-            <div className="rounded-2xl border border-gray-200 bg-white shadow-2xl overflow-hidden aspect-[16/9] relative">
-
-               {/* Header of App */}
-
-               <div className="h-16 border-b border-gray-100 flex items-center justify-between px-6 bg-white">
-
-                  <div className="flex items-center gap-4">
-
-                     <span className="text-sm font-medium text-gray-500">Today 11:29AM</span>
-
-                     <div className="h-4 w-[1px] bg-gray-200"></div>
-
-                     <span className="text-sm font-medium text-gray-500 flex items-center gap-1">文 English</span>
-
-                     <span className="bg-[#8B5CF6] text-white text-xs font-bold px-2 py-1 rounded-md">14 days</span>
-
-                  </div>
-
-                  <div className="flex items-center gap-4">
-
-                     <span className="text-sm text-gray-400">02:11</span>
-
-                     <div className="border border-red-200 bg-red-50 text-red-500 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-2">
-
-                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-
-                        Default - Macbook...
-
-                     </div>
-
-                  </div>
-
-               </div>
-
-               
-
-               {/* Body of App */}
-
-               <div className="flex h-full">
-
-                  {/* Sidebar */}
-
-                  <div className="w-64 border-r border-gray-100 bg-[#FAFAFA] hidden md:flex flex-col justify-between p-4">
-
-                     <div className="space-y-1">
-
-                        <button className="w-full bg-[#2A1B1B] text-white rounded-lg py-2.5 px-4 text-sm font-medium flex items-center gap-2 mb-6">
-
-                           <span className="text-lg">+</span> New session
-
-                        </button>
-
-                        {['View sessions', 'Tasks'].map(item => (
-
-                           <div key={item} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-md cursor-pointer font-medium">{item}</div>
-
-                        ))}
-
-                         <div className="pt-4 text-xs font-bold text-gray-400 uppercase tracking-wider px-4">Templates</div>
-
-                         {['Template library', 'Community'].map(item => (
-
-                           <div key={item} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-md cursor-pointer font-medium">{item}</div>
-
-                        ))}
-
-                     </div>
-
-                     <div className="space-y-1">
-
-                        {['Earn $50', 'Request a feature', 'Shortcuts', 'Help'].map(item => (
-
-                           <div key={item} className="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 rounded-md cursor-pointer">{item}</div>
-
-                        ))}
-
-                     </div>
-
-                  </div>
-
-
-
-                  {/* Main Content */}
-
-                  <div className="flex-1 flex flex-col p-6 relative">
-
-                     <div className="flex items-center gap-6 border-b border-gray-100 pb-4 mb-6">
-
-                        <div className="text-gray-400 font-medium cursor-pointer">Context</div>
-
-                        <div className="bg-white shadow-sm border border-gray-200 text-[#2A1B1B] px-4 py-1.5 rounded-md font-medium text-sm flex items-center gap-2">
-
-                           <div className="h-3 w-[2px] bg-red-400 rounded-full"></div>
-
-                           Transcript
-
-                        </div>
-
-                        <div className="text-gray-400 font-medium cursor-pointer">Dentistry Note</div>
-
-                        <div className="text-gray-400">+</div>
-
-                     </div>
-
-                     
-
-                     <div className="flex-1 bg-white rounded-xl">
-
-                        {/* Empty State */}
-
-                     </div>
-
-
-
-                     {/* Bottom Input */}
-
-                     <div className="mt-4">
-
-                        <div className="relative">
-
-                           <input 
-
-                              type="text" 
-
-                              placeholder="Ask Heidi for patients to do anything..." 
-
-                              className="w-full border border-gray-200 rounded-xl py-4 pl-12 pr-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200"
-
-                           />
-
-                           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-
-                              <Activity size={20} />
-
-                           </div>
-
-                        </div>
-
-                        <div className="text-center mt-3 text-xs text-orange-600 flex items-center justify-center gap-2">
-
-                           <div className="w-3 h-3 border border-orange-600 rounded-full flex items-center justify-center text-[8px]">!</div>
-
-                           Review your note before use to ensure it accurately represents the visit
-
-                        </div>
-
-                     </div>
-
-                  </div>
-
-               </div>
-
-            </div>
-
-         </div>
-
-      </section>
 
 
 
