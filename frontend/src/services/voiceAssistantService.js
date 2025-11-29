@@ -136,6 +136,40 @@ export const voiceAssistantService = {
   },
 
   /**
+   * Submit a follow-up answer (text or audio) for Additional Details section
+   * @param {string} sessionId - Session ID
+   * @param {string} question - Current question being answered
+   * @param {string} answer - Text answer or transcribed answer
+   * @param {object} formData - The written form data (object)
+   * @param {number} maxQuestions - Maximum number of follow-up questions (default 5)
+   * @returns {Promise<{next_question: string|null, done: boolean, user_answer: string}>}
+   */
+  submitFollowupAnswer: async (sessionId, question, answer, formDataObj = {}, maxQuestions = 5) => {
+    try {
+      const formData = new FormData();
+      formData.append('session_id', sessionId);
+      formData.append('question', question);
+      formData.append('text', answer);
+      formData.append('form_data', JSON.stringify(formDataObj));
+      formData.append('max_questions', maxQuestions);
+
+      const response = await fetch(`${BACKEND_BASE_URL}/followup_answer`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Submit followup answer failed: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error submitting followup answer:', error);
+      throw error;
+    }
+  },
+
+  /**
    * Utility: Speak text using either browser's SpeechSynthesis or TTS endpoint
    * @param {string} text - Text to speak
    */

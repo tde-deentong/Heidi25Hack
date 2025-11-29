@@ -246,3 +246,91 @@ async def tts(text: str):
         raise HTTPException(status_code=400, detail="text query param required")
     data = await text_to_speech_bytes(text)
     return StreamingResponse(iter([data]), media_type="audio/wav")
+
+@router.post("/followup_answer")
+async def followup_answer(
+    session_id: str = Form(...),
+    question: str = Form(...),
+    text: Optional[str] = Form(None),
+    audio: Optional[UploadFile] = File(None),
+    form_data: Optional[str] = Form(None),
+    max_questions: int = 5,
+):
+    """Accept an answer for the Additional Details section, using both prior Q/A and form data."""
+    t_start = time.time()
+    print(f"[TIMER] /followup_answer started")
+
+    if not text and not audio:
+        raise HTTPException(status_code=400, detail="Provide either 'text' or an 'audio' file")
+
+    answer_text = text
+    temp_file_path = None
+    if audio:
+        suffix = os.path.splitext(audio.filename)[1] or '.wav'
+        fd, temp_file_path = tempfile.mkstemp(suffix=suffix)
+        with open(fd, 'wb') as f:
+            content = await audio.read()
+            f.write(content)
+        print(f"[TIMER] /followup_answer audio file written ({time.time() - t_start:.2f}s)")
+        try:
+            t_whisper = time.time()
+            answer_text = await transcribe_audio_file(temp_file_path)
+            print(f"[TIMER] /followup_answer Whisper API ({time.time() - t_whisper:.2f}s)")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Transcription failed: {e}")
+        finally:
+            try:
+                os.remove(temp_file_path)
+            except Exception:
+                pass
+
+    qa_item = {"question": question, "answer": answer_text, "timestamp": datetime.utcnow()}
+
+    # Try to push to MongoDB and increment qa_count atomically for efficiency
+    try:
+        col = db.get_db()["sessions"]
+        update_result = await col.update_one(
+            {"session_id": session_id},
+            {"$push": {"qas": qa_item}, "$inc": {"qa_count": 1}}
+        )
+        if update_result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="session not found")
+        doc = await col.find_one({"session_id": session_id}, {"qas": {"$slice": -10}})
+        prev_qas = doc.get("qas", []) if doc else []
+    except HTTPException:
+        raise
+    except Exception:
+        if session_id not in _sessions:
+            raise HTTPException(status_code=404, detail="session not found")
+        _sessions[session_id]["qas"].append(qa_item)
+        _sessions[session_id]["qa_count"] = _sessions[session_id].get("qa_count", 0) + 1
+        prev_qas = _sessions[session_id]["qas"]
+
+    print(f"[TIMER] /followup_answer DB write ({time.time() - t_start:.2f}s)")
+
+    # Parse form_data
+    form_data_dict = {}
+    if form_data:
+        try:
+            form_data_dict = json.loads(form_data)
+            print(f"[DEBUG] form_data received: {form_data_dict}")
+        except Exception as e:
+            print(f"[DEBUG] Failed to parse form_data: {e}")
+            form_data_dict = {}
+
+    # Call the followup LLM
+    try:
+        t_llm = time.time()
+        from .openai_client import generate_followup_question
+        gen = await generate_followup_question(prev_qas, form_data_dict, max_questions)
+        print(f"[DEBUG] OpenAI followup response: {gen}")
+        print(f"[TIMER] /followup_answer OpenAI LLM call ({time.time() - t_llm:.2f}s)")
+    except Exception as e:
+        print(f"[DEBUG] OpenAI followup call failed: {e}")
+        return {"next_question": None, "done": True}
+
+    next_q = gen.get("next_question")
+    done = bool(gen.get("done", False))
+
+    print(f"[TIMER] /followup_answer completed ({time.time() - t_start:.2f}s)")
+    return {"next_question": next_q, "done": done, "user_answer": answer_text}

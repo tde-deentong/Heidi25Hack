@@ -124,11 +124,13 @@ const PostFormFollowUp = ({ formType, voiceHistory, formData, onComplete }) => {
     setIsLoading(true);
 
     try {
-      const response = await voiceAssistantService.submitAnswer(
+      // Use the followup endpoint for additional details
+      const response = await voiceAssistantService.submitFollowupAnswer(
         sessionId,
         currentQuestion,
         currentAnswer,
-        null
+        formData,
+        5 // max questions
       );
 
       setConversationHistory((prev) => [

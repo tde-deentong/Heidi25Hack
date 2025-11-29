@@ -81,6 +81,11 @@ async def generate_next_question(prev_qas: List[Dict], domain_questions: List[st
         "Respond with ONLY valid JSON: {\"next_question\": \"your question\" OR null, \"done\": true OR false, \"form_type\": \"dentistry\" OR \"cardiac\" OR null}"
     )
 
+    # Log what is being sent to the LLM
+    print("[LLM INPUT] System prompt:\n", system_prompt)
+    print("[LLM INPUT] User prompt:\n", user_prompt)
+    print("[LLM INPUT] Context:", json.dumps(context, ensure_ascii=False))
+
     def _call():
         completion = openai.ChatCompletion.create(
             model="gpt-4o-mini", # fallback, replace with an available model if needed
@@ -107,6 +112,83 @@ async def generate_next_question(prev_qas: List[Dict], domain_questions: List[st
                 except Exception:
                     pass
         # fallback default
+        return {"next_question": None, "done": True}
+
+    return await asyncio.to_thread(_call)
+
+async def generate_followup_question(prev_qas: List[Dict], form_data: Dict, max_questions: int = 5) -> Dict:
+    """Ask the model to return a relevant follow-up question in JSON: {next_question: str|null, done: bool}
+
+    prev_qas: list of {question,answer,timestamp} from both purpose visit and follow-up
+    form_data: dict of written form answers
+    max_questions: maximum number of follow-up questions to ask
+    """
+    # Sanitize prev_qas: convert datetime objects to ISO strings for JSON serialization
+    sanitized_qas = []
+    for qa in prev_qas:
+        sanitized_qa = {
+            "question": qa.get("question", ""),
+            "answer": qa.get("answer", ""),
+        }
+        if "timestamp" in qa and hasattr(qa["timestamp"], "isoformat"):
+            sanitized_qa["timestamp"] = qa["timestamp"].isoformat()
+        sanitized_qas.append(sanitized_qa)
+
+    # Only ask up to max_questions follow-ups
+    followup_count = len(sanitized_qas)
+    if followup_count >= max_questions:
+        return {"next_question": None, "done": True}
+
+    system_prompt = (
+        "You are a medical assistant helping a clinician gather additional relevant information from a patient. "
+        "You have access to the patient's initial visit purpose conversation and their written form responses. "
+        "Your goal is to ask up to 5 additional, highly relevant follow-up questions to clarify or expand on their situation. "
+        "Do NOT try to determine the form type or end the session early. "
+        "Do NOT ask about information already clearly answered. "
+        "Ask one clear, specific, and contextually relevant question at a time. "
+        "When you have asked 5 follow-ups, or there is nothing more useful to ask, set done=true."
+    )
+
+    context = {
+        "total_questions_asked": followup_count,
+        "recent_exchanges": sanitized_qas[-4:],
+        "form_data": form_data,
+    }
+
+    user_prompt = (
+        "Here is the patient's context for follow-up questions.\n\n"
+        f"Context: {json.dumps(context, ensure_ascii=False)}\n\n"
+        "Ask ONE additional, highly relevant follow-up question. "
+        "If there is nothing more useful to ask, set next_question to null and done to true.\n\n"
+        "Respond with ONLY valid JSON: {\"next_question\": \"your question\" OR null, \"done\": true OR false}"
+    )
+
+    print("[LLM INPUT] System prompt (followup):\n", system_prompt)
+    print("[LLM INPUT] User prompt (followup):\n", user_prompt)
+    print("[LLM INPUT] Context (followup):", json.dumps(context, ensure_ascii=False))
+
+    def _call():
+        completion = openai.ChatCompletion.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            temperature=0.3,
+            max_tokens=200,
+        )
+        text = completion.choices[0].message.content.strip()
+        try:
+            parsed = json.loads(text)
+            return parsed
+        except Exception:
+            start = text.find("{")
+            end = text.rfind("}")
+            if start != -1 and end != -1:
+                try:
+                    return json.loads(text[start:end+1])
+                except Exception:
+                    pass
         return {"next_question": None, "done": True}
 
     return await asyncio.to_thread(_call)
