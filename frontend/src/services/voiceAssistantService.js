@@ -176,14 +176,55 @@ export const voiceAssistantService = {
   speakText: async (text) => {
     if (!text) return;
 
+    // Helper to actually speak with preferred voice
+    const speakWithPreferredVoice = (utterance, synth) => {
+      const voices = synth.getVoices();
+      const preferredVoice = voices.find(v =>
+        v.lang.startsWith('en') && v.gender === 'female'
+      ) || voices.find(v =>
+        v.lang.startsWith('en') && v.name.toLowerCase().includes('female')
+      ) || voices.find(v =>
+        v.lang.startsWith('en') && v.name.toLowerCase().includes('natural')
+      ) || voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('woman'))
+        || voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('girl'))
+        || voices.find(v => v.lang.startsWith('en'));
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+      synth.cancel();
+      synth.speak(utterance);
+    };
+
+    // Wait for voices to be loaded if needed
+    const waitForVoices = () => {
+      return new Promise(resolve => {
+        const synth = window.speechSynthesis;
+        let voices = synth.getVoices();
+        if (voices && voices.length > 0) {
+          resolve();
+        } else {
+          const voicesChanged = () => {
+            voices = synth.getVoices();
+            if (voices && voices.length > 0) {
+              synth.removeEventListener('voiceschanged', voicesChanged);
+              resolve();
+            }
+          };
+          synth.addEventListener('voiceschanged', voicesChanged);
+          // Also trigger loading
+          synth.getVoices();
+        }
+      });
+    };
+
     // Try browser's SpeechSynthesis first
     try {
       const synth = window.speechSynthesis;
       if (synth) {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.rate = 1.0;
-        synth.cancel();
-        synth.speak(utterance);
+        await waitForVoices();
+        speakWithPreferredVoice(utterance, synth);
         return;
       }
     } catch (error) {
