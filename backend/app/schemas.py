@@ -23,9 +23,11 @@ class QAItem(BaseModel):
 class NextQuestionResponse(BaseModel):
     next_question: Optional[str]
     done: bool = False
+    form_type: Optional[str] = None
 
 class SessionDoc(BaseModel):
     session_id: str
     patient_name: Optional[str]
+    form_type: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     qas: List[QAItem] = []

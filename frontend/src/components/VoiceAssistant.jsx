@@ -122,7 +122,7 @@ const VoiceAssistant = ({ onSessionComplete, domainQuestions = null }) => {
 
         // Call the callback to notify parent component
         if (onSessionComplete) {
-          onSessionComplete(sessionId, conversationHistory);
+          onSessionComplete(sessionId, conversationHistory, response.form_type || null);
         }
       }
     } catch (err) {
@@ -295,54 +295,30 @@ const VoiceAssistant = ({ onSessionComplete, domainQuestions = null }) => {
             )}
           </div>
 
-          {/* Submit Button or Complete Button */}
+          {/* Submit Button */}
           <div className="flex justify-end pt-4 border-t border-gray-200">
-            {conversationHistory.length >= (domainQuestions?.length || 4) ? (
-              <button
-                onClick={() => {
-                  if (onSessionComplete) {
-                    onSessionComplete(sessionId, conversationHistory);
-                  }
-                }}
-                disabled={isLoading}
-                className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader className="w-4 h-4 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Submit Questionnaire
-                  </>
-                )}
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmitAnswer}
-                disabled={
-                  !currentAnswer.trim() ||
-                  isLoading ||
-                  recordingState === 'recording' ||
-                  recordingState === 'processing'
-                }
-                className="flex items-center gap-2 px-6 py-3 bg-[#2A1B1B] text-white rounded-lg font-medium hover:bg-[#1A0F0F] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader className="w-4 h-4 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Submit Answer
-                  </>
-                )}
-              </button>
-            )}
+            <button
+              onClick={handleSubmitAnswer}
+              disabled={
+                !currentAnswer.trim() ||
+                isLoading ||
+                recordingState === 'recording' ||
+                recordingState === 'processing'
+              }
+              className="flex items-center gap-2 px-6 py-3 bg-[#2A1B1B] text-white rounded-lg font-medium hover:bg-[#1A0F0F] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+            >
+              {isLoading ? (
+                <>
+                  <Loader className="w-4 h-4 animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  Submit Answer
+                </>
+              )}
+            </button>
           </div>
 
           {/* Conversation History */}

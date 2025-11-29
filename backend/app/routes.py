@@ -22,9 +22,9 @@ _sessions = {}
 
 DEFAULT_QUESTIONS = [
     "What is the main reason for your visit today?",
-    "How long have you had these symptoms?",
-    "Are you currently taking any medications?",
-    "Do you have any allergies to medication?",
+    "Can you describe your symptoms in more detail?",
+    "When did these symptoms start?",
+    "Have you experienced anything similar before?",
 ]
 
 @router.post("/start_session")
@@ -157,17 +157,29 @@ async def answer(
 
     next_q = gen.get("next_question")
     done = bool(gen.get("done", False))
+    form_type = gen.get("form_type")
 
     # if done, mark in DB
     if done:
         try:
             col = db.get_db()["sessions"]
-            await col.update_one({"session_id": session_id}, {"$set": {"done": True}})
+            update_payload = {"done": True}
+            if form_type:
+                update_payload["form_type"] = form_type
+            await col.update_one({"session_id": session_id}, {"$set": update_payload})
         except Exception:
             pass
+    else:
+        # if form_type identified earlier in conversation, persist it
+        if form_type:
+            try:
+                col = db.get_db()["sessions"]
+                await col.update_one({"session_id": session_id}, {"$set": {"form_type": form_type}})
+            except Exception:
+                pass
 
     print(f"[TIMER] /answer completed ({time.time() - t_start:.2f}s)")
-    return {"next_question": next_q, "done": done, "user_answer": answer_text}
+    return {"next_question": next_q, "done": done, "user_answer": answer_text, "form_type": form_type}
 
 
 @router.post("/transcribe")

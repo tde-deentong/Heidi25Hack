@@ -4,12 +4,16 @@ import { ArrowLeft, FileText, ChevronRight, CheckCircle2, Mic } from 'lucide-rea
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../services/authService';
 import VoiceAssistant from '../components/VoiceAssistant';
+import CardiacForm from '../components/CardiacForm';
+import PostFormFollowUp from '../components/PostFormFollowUp';
 
 const PreScreen = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [currentSection, setCurrentSection] = useState('dental'); // 'dental' or 'medical'
-  const [mode, setMode] = useState('voice'); // 'form' or 'voice'
+  const [mode, setMode] = useState('voice'); // 'voice', 'form', or 'followup'
+  const [selectedFormType, setSelectedFormType] = useState(null); // 'dentistry' | 'cardiac' | null
+  const [voiceHistory, setVoiceHistory] = useState([]); // Store voice conversation history
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   
@@ -72,25 +76,39 @@ const PreScreen = () => {
     }));
   };
 
-  const handleVoiceSessionComplete = async (sessionId, conversationHistory) => {
+  const handleVoiceSessionComplete = async (sessionId, conversationHistory, formType = null) => {
     try {
-      // Save voice session data as questionnaire
+      // Store voice history for follow-up questions
+      setVoiceHistory(conversationHistory);
+
+      // Persist voice session summary as questionnaire record
       if (user) {
         const questionnaireData = {
-          type: 'dental-voice',
-          clinic: 'Dental Clinic',
+          type: formType === 'cardiac' ? 'cardiac-voice' : 'dental-voice',
+          clinic: formType === 'cardiac' ? 'Cardiology Clinic' : 'Dental Clinic',
           appointmentDate: new Date().toISOString().split('T')[0],
           appointmentTime: 'TBD',
           voiceSessionId: sessionId,
           conversationHistory: conversationHistory,
+          form_type: formType,
           submittedAt: new Date().toISOString()
         };
         
         authService.saveQuestionnaire(user.id, questionnaireData);
       }
-      
-      // Mark as submitted
-      setIsSubmitted(true);
+
+      // If the LLM provided a form type, show the corresponding written form to the user
+      if (formType) {
+        setSelectedFormType(formType);
+        setMode('form');
+        // If dentistry, set dental tab; if cardiac, ensure we show cardiac form
+        if (formType === 'dentistry') {
+          setCurrentSection('dental');
+        }
+      } else {
+        // Fallback: mark submitted as before
+        setIsSubmitted(true);
+      }
     } catch (error) {
       console.error('Error completing voice session:', error);
     }
@@ -117,12 +135,18 @@ const PreScreen = () => {
       
       // Simulate submission
       await new Promise(resolve => setTimeout(resolve, 1000));
-      setIsSubmitted(true);
+      
+      // Auto-navigate to follow-up tab after form submission
+      setMode('followup');
     } catch (error) {
       console.error('Error submitting questionnaire:', error);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleFollowUpComplete = () => {
+    setIsSubmitted(true);
   };
 
   if (isSubmitted) {
@@ -206,29 +230,56 @@ const PreScreen = () => {
           <div className="flex gap-4 mb-6">
             <button
               type="button"
-              onClick={() => setMode('voice')}
+              onClick={() => {
+                if (!selectedFormType) setMode('voice');
+              }}
+              disabled={selectedFormType}
               className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all ${
                 mode === 'voice'
                   ? 'bg-[#2A1B1B] text-white shadow-md'
                   : 'bg-gray-100 text-[#2A1B1B] hover:bg-gray-200'
-              }`}
+              } ${selectedFormType ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <Mic className="inline mr-2" size={18} />
-              Voice Assistant
+              Determine Visit Purpose
             </button>
             <button
               type="button"
-              onClick={() => setMode('form')}
+              onClick={() => {
+                if (selectedFormType && mode !== 'followup') setMode('form');
+              }}
+              disabled={!selectedFormType || mode === 'followup'}
               className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all ${
                 mode === 'form'
                   ? 'bg-[#2A1B1B] text-white shadow-md'
                   : 'bg-gray-100 text-[#2A1B1B] hover:bg-gray-200'
-              }`}
+              } ${!selectedFormType || mode === 'followup' ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <FileText className="inline mr-2" size={18} />
               Written Form
             </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (mode === 'followup') setMode('followup');
+              }}
+              disabled={mode !== 'followup'}
+              className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all ${
+                mode === 'followup'
+                  ? 'bg-[#2A1B1B] text-white shadow-md'
+                  : 'bg-gray-100 text-[#2A1B1B] hover:bg-gray-200'
+              } ${mode !== 'followup' ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              <Mic className="inline mr-2" size={18} />
+              Additional Details
+            </button>
           </div>
+          {!selectedFormType && (
+            <p className="text-sm text-[#2A1B1B]/60 mt-2">
+              Complete the Voice Assistant session first — the written form will be shown
+              automatically once the assistant finishes and determines the correct form.
+            </p>
+          )}
 
           {/* Voice Mode */}
           {mode === 'voice' ? (
@@ -241,10 +292,16 @@ const PreScreen = () => {
                 "Do you have any allergies to medication?"
               ]}
             />
+          ) : mode === 'followup' ? (
+            <PostFormFollowUp formType={selectedFormType} voiceHistory={voiceHistory} formData={formData} onComplete={handleFollowUpComplete} />
           ) : (
             <>
-              {/* Section Tabs */}
-              <div className="flex gap-2 mb-6 border-b border-gray-200">
+              {selectedFormType === 'cardiac' ? (
+                <CardiacForm onSubmitted={() => setMode('followup')} />
+              ) : (
+                <>
+                  {/* Section Tabs */}
+                  <div className="flex gap-2 mb-6 border-b border-gray-200">
             <button
               type="button"
               onClick={() => setCurrentSection('dental')}
@@ -853,6 +910,8 @@ const PreScreen = () => {
               )}
             </div>
           </form>
+                </>
+              )}
             </>
           )}
         </div>

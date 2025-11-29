@@ -47,30 +47,38 @@ async def generate_next_question(prev_qas: List[Dict], domain_questions: List[st
         sanitized_qas.append(sanitized_qa)
     
     system_prompt = (
-        "You are a medical pre-screening assistant whose job is to ask short relevant follow-up questions "
-        "to collect useful information for a GP or specialist. You should:\n"
-        "1. Use the provided domain_questions as a guide or reference\n"
-        "2. Ask the most relevant next question based on the patient's responses (either from domain_questions or a relevant follow-up)\n"
-        "3. Generate contextually appropriate follow-up questions that clarify or expand on their answers\n"
-        "4. Stop when you have sufficient medical information for a pre-screening\n\n"
-        "Return ONLY a JSON object with keys: \"next_question\" (string or null) and \"done\" (boolean). "
-        "If you determine you have enough information, respond with \"next_question\": null and \"done\": true."
+        "You are a medical pre-screening assistant. Your goal is to determine which medical specialty "
+        "the patient needs (dentistry or cardiac) as QUICKLY as possible.\n\n"
+        "Instructions:\n"
+        "1. Listen to the patient's answer about their symptoms.\n"
+        "2. If you can CONFIDENTLY determine the form type from their answer, END THE SESSION IMMEDIATELY.\n"
+        "3. If you are UNSURE, ask ONE follow-up question to clarify.\n"
+        "4. Dental-related symptoms (tooth pain, mouth, gums, braces, fillings, sensitivity, etc.) → form_type='dentistry'.\n"
+        "5. Cardiac-related symptoms (chest pain, heart, shortness of breath, palpitations, etc.) → form_type='cardiac'.\n"
+        "6. Be brief and friendly.\n\n"
+        "Return ONLY a JSON object with keys: \"next_question\" (string or null), \"done\" (boolean), and \"form_type\" (string or null).\n"
+        "- form_type: \"dentistry\", \"cardiac\", or null\n"
+        "- next_question: null only when done=true\n"
+        "- done: true when you have determined the form_type with confidence"
     )
 
-    # Construct a short context
+    # Construct a short context with conversation history
     context = {
-        "domain_questions": domain_questions or [],
-        "previous_pairs": sanitized_qas[-8:],  # limit the context
+        "total_questions_asked": len(sanitized_qas),
+        "recent_exchanges": sanitized_qas[-4:],  # last 4 exchanges only
     }
 
     user_prompt = (
-        "Given the context JSON below, generate or select the best next question to ask the patient. "
-        "You can choose from the domain_questions list OR generate a new relevant follow-up question based on their answers. "
-        "Prioritize questions that will be most useful for pre-screening assessment. "
-        "Questions should be short and natural. "
-        "If you have gathered enough information, set done=true and next_question=null.\n\n"
+        "Based on the patient's responses below, decide whether you can confidently determine the form type:\n\n"
         f"Context: {json.dumps(context, ensure_ascii=False)}\n\n"
-        "Answer in JSON only."
+        "DECISION RULES:\n"
+        "- If the patient's answer clearly indicates DENTAL symptoms → form_type='dentistry', done=true (END IMMEDIATELY)\n"
+        "- If the patient's answer clearly indicates CARDIAC symptoms → form_type='cardiac', done=true (END IMMEDIATELY)\n"
+        "- If you are UNSURE after any number of questions → Ask ONE clarifying follow-up question, done=false\n"
+        "- After asking at least one follow-up, if still unclear → Make your best judgment, set done=true with a form_type\n\n"
+        "Dental keywords: tooth, teeth, mouth, gums, dental work, sensitivity, bite pain, filling, crown, extraction\n"
+        "Cardiac keywords: chest, heart, breathless, palpitations, dizzy, fainting, arrhythmia\n\n"
+        "Respond with ONLY valid JSON: {\"next_question\": \"your question\" OR null, \"done\": true OR false, \"form_type\": \"dentistry\" OR \"cardiac\" OR null}"
     )
 
     def _call():
