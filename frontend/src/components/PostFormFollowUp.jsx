@@ -34,6 +34,14 @@ const PostFormFollowUp = ({ formType, voiceHistory, formData, onComplete }) => {
     initSession();
   }, [formType, voiceHistory, formData]);
 
+  // Speak the first question when it appears
+  useEffect(() => {
+    if (currentQuestion && questionCount === 0 && sessionState === 'active') {
+      voiceAssistantService.speakText(currentQuestion);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestion, questionCount, sessionState]);
+
   // Generate contextual follow-up questions based on form type and prior answers
   const generateContextualQuestions = (formType, voiceHistory, formData) => {
     const questions = [];
